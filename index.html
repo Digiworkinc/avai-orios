@@ -10,7 +10,16 @@
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js')
+          // Extract base path from current URL
+          const currentPath = window.location.pathname;
+          let basePath = '/';
+          
+          // If path contains /avai-orios/, use that as base
+          if (currentPath.includes('/avai-orios/')) {
+            basePath = '/avai-orios/';
+          }
+          
+          navigator.serviceWorker.register(basePath + 'sw.js')
             .then(reg => console.log('SW registered'))
             .catch(err => console.log('SW registration failed', err));
         });
