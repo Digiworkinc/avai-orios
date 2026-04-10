@@ -4,26 +4,35 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#00f2ff" />
-    <link rel="manifest" href="/manifest.json" />
-    <link rel="apple-touch-icon" href="/images/app-icon-192.svg" />
+    <link rel="manifest" href="/avai-orios/manifest.json" />
+    <link rel="apple-touch-icon" href="/avai-orios/images/app-icon-192.svg" />
     <title>AVAI-ORIOS | Smart Technology System Integrator</title>
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js')
+          // Extract base path from current URL
+          const currentPath = window.location.pathname;
+          let basePath = '/';
+          
+          // If path contains /avai-orios/, use that as base
+          if (currentPath.includes('/avai-orios/')) {
+            basePath = '/avai-orios/';
+          }
+          
+          navigator.serviceWorker.register(basePath + 'sw.js')
             .then(reg => console.log('SW registered'))
             .catch(err => console.log('SW registration failed', err));
         });
       }
     </script>
-    <script type="module" crossorigin src="/assets/index-D0XP0mCQ.js"></script>
-    <link rel="modulepreload" crossorigin href="/assets/lucide-9vXGMLMU.js">
-    <link rel="modulepreload" crossorigin href="/assets/motion-BNZl5BBh.js">
-    <link rel="modulepreload" crossorigin href="/assets/landing-CbckwdeB.js">
-    <link rel="modulepreload" crossorigin href="/assets/recharts-CyLvqkrL.js">
-    <link rel="modulepreload" crossorigin href="/assets/firebase-BfnNRPue.js">
-    <link rel="modulepreload" crossorigin href="/assets/admin-dashboard-BWcO21n8.js">
-    <link rel="stylesheet" crossorigin href="/assets/index-aqkqoSa5.css">
+    <script type="module" crossorigin src="/avai-orios/assets/index-DsOqHG8P.js"></script>
+    <link rel="modulepreload" crossorigin href="/avai-orios/assets/lucide-9vXGMLMU.js">
+    <link rel="modulepreload" crossorigin href="/avai-orios/assets/motion-BNZl5BBh.js">
+    <link rel="modulepreload" crossorigin href="/avai-orios/assets/landing-CbckwdeB.js">
+    <link rel="modulepreload" crossorigin href="/avai-orios/assets/recharts-CyLvqkrL.js">
+    <link rel="modulepreload" crossorigin href="/avai-orios/assets/firebase-BfnNRPue.js">
+    <link rel="modulepreload" crossorigin href="/avai-orios/assets/admin-dashboard-BWcO21n8.js">
+    <link rel="stylesheet" crossorigin href="/avai-orios/assets/index-aqkqoSa5.css">
   </head>
   <body>
     <div id="root"></div>
