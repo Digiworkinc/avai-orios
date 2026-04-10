@@ -1,0 +1,7 @@
+{
+  "name": "AVAI-ORIOS | Smart Technology System Integrator",
+  "description": "Professional website and admin dashboard for AVAI-ORIOS, a leading smart technology system integrator specializing in AI, IoT, and LED Videotron solutions.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}

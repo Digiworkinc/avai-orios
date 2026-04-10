@@ -1,0 +1,113 @@
+{
+  "entities": {
+    "WebsiteContent": {
+      "title": "WebsiteContent",
+      "description": "The entire content of the website, including hero, solutions, products, and portfolio.",
+      "type": "object",
+      "properties": {
+        "hero": {
+          "type": "object",
+          "properties": {
+            "tagline": { "type": "string" },
+            "headline": { "type": "string" },
+            "subHeadline": { "type": "string" },
+            "imageUrl": { "type": "string" },
+            "stats": {
+              "type": "object",
+              "properties": {
+                "value": { "type": "string" },
+                "label": { "type": "string" }
+              }
+            }
+          }
+        },
+        "solutions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "title": { "type": "string" },
+              "desc": { "type": "string" },
+              "icon": { "type": "string" },
+              "color": { "type": "string" }
+            }
+          }
+        },
+        "products": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "name": { "type": "string" },
+              "type": { "type": "string", "enum": ["Indoor", "Outdoor"] },
+              "pixelPitch": { "type": "string" },
+              "brightness": { "type": "string" },
+              "status": { "type": "string", "enum": ["Available", "Low Stock", "Out of Stock"] }
+            }
+          }
+        },
+        "portfolio": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "title": { "type": "string" },
+              "desc": { "type": "string" },
+              "features": { "type": "array", "items": { "type": "string" } },
+              "images": { "type": "array", "items": { "type": "string" } }
+            }
+          }
+        },
+        "contact": {
+          "type": "object",
+          "properties": {
+            "title": { "type": "string" },
+            "subTitle": { "type": "string" },
+            "team": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": { "type": "string" },
+                  "name": { "type": "string" },
+                  "role": { "type": "string" },
+                  "phone": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "footer": {
+          "type": "object",
+          "properties": {
+            "companyName": { "type": "string" },
+            "copyright": { "type": "string" }
+          }
+        }
+      }
+    },
+    "User": {
+      "title": "User",
+      "description": "User profile and role information.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "role": { "type": "string", "enum": ["admin", "user"] }
+      }
+    }
+  },
+  "firestore": {
+    "/content/main": {
+      "schema": "WebsiteContent",
+      "description": "The main content document for the website."
+    },
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile document."
+    }
+  }
+}

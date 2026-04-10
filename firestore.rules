@@ -1,0 +1,82 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: content
+    // Document ID: main
+    // Fields:
+    //   - hero: object (tagline, headline, subHeadline, imageUrl, stats)
+    //   - solutions: array of objects
+    //   - products: array of objects
+    //   - portfolio: array of objects
+    //   - contact: object (title, subTitle, team)
+    //   - footer: object (companyName, copyright)
+    //
+    // Collection: users
+    // Document ID: {userId}
+    // Fields:
+    //   - uid: string (required)
+    //   - email: string (required)
+    //   - role: string (required, 'admin' or 'user')
+    //
+    // ===============================================================
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() &&
+        ((exists(/databases/$(database)/documents/users/$(request.auth.uid)) && 
+          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin') ||
+          (request.auth.token.email == "eleazaragungnugroho@gmail.com" && request.auth.token.email_verified == true));
+    }
+
+    function isValidWebsiteContent(data) {
+      return data.keys().hasAll(['hero', 'solutions', 'products', 'portfolio', 'contact', 'footer']) &&
+             data.hero is map &&
+             data.solutions is list &&
+             data.products is list &&
+             data.portfolio is list &&
+             data.contact is map &&
+             data.footer is map;
+    }
+
+    function isValidUser(data) {
+      return data.keys().hasAll(['uid', 'email', 'role']) &&
+             data.uid is string &&
+             data.email is string &&
+             data.role in ['admin', 'user'];
+    }
+
+    // ===============================================================
+    // Rules
+    // ===============================================================
+
+    // Website Content: Publicly readable, but only admins can write.
+    match /content/main {
+      allow read: if true;
+      allow write: if isAdmin() && isValidWebsiteContent(request.resource.data);
+    }
+
+    // User Profiles: Users can read/write their own profiles, but only admins can change roles.
+    match /users/{userId} {
+      allow read: if isOwner(userId) || isAdmin();
+      allow create: if isAuthenticated() && isOwner(userId) && isValidUser(request.resource.data) && (request.resource.data.role == 'user' || isAdmin());
+      allow update: if isAuthenticated() && isOwner(userId) && isValidUser(request.resource.data) && (request.resource.data.role == resource.data.role || isAdmin());
+      allow delete: if isAdmin();
+    }
+  }
+}
