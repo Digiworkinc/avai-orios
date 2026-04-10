@@ -26,6 +26,8 @@ import { cn } from './lib/utils';
 import { View, Product, WebsiteContent } from './types';
 import { Hero, Solutions, Products, Portfolio, Contact } from './components/Landing';
 import { ASSET_CONFIG } from './config/assets';
+import { isDevAdminMode, logAdminDebug } from './lib/adminHelper';
+import { AdminDebugPanel } from './components/AdminDebugPanel';
 
 // Lazy load AdminDashboard for better code-splitting
 const AdminDashboard = lazy(() => import('./components/AdminDashboard').then(m => ({ default: m.AdminDashboard })));
@@ -298,23 +300,38 @@ export default function App() {
     const unsubscribe = onAuthStateChanged(auth, async (u) => {
       setUser(u);
       if (u) {
+        // Log admin debug info
+        logAdminDebug(u.email, null);
+        
         // Check for admin role in Firestore
         const userRef = doc(db, 'users', u.uid);
-        const userSnap = await getDoc(userRef);
         
-        if (userSnap.exists()) {
-          setIsAdmin(userSnap.data().role === 'admin');
-        } else {
-          // Check if it's the hardcoded admin email
-          const isHardcodedAdmin = u.email === "eleazaragungnugroho@gmail.com" && u.emailVerified;
-          setIsAdmin(isHardcodedAdmin);
+        try {
+          const userSnap = await getDoc(userRef);
           
-          // Create user profile if it doesn't exist
-          await setDoc(userRef, {
-            uid: u.uid,
-            email: u.email,
-            role: isHardcodedAdmin ? 'admin' : 'user'
-          });
+          if (userSnap.exists()) {
+            setIsAdmin(userSnap.data().role === 'admin');
+          } else {
+            // Check if it's the hardcoded admin email
+            const isHardcodedAdmin = u.email === "eleazaragungnugroho@gmail.com" && u.emailVerified;
+            setIsAdmin(isHardcodedAdmin);
+            
+            // Create user profile if it doesn't exist
+            await setDoc(userRef, {
+              uid: u.uid,
+              email: u.email,
+              role: isHardcodedAdmin ? 'admin' : 'user'
+            });
+          }
+        } catch (error) {
+          console.error('Firebase error checking admin:', error);
+          // Fallback: check if dev admin mode is enabled
+          if (isDevAdminMode()) {
+            console.log('✅ Using dev admin override');
+            setIsAdmin(true);
+          } else {
+            setIsAdmin(false);
+          }
         }
       } else {
         setIsAdmin(false);
@@ -419,6 +436,7 @@ export default function App() {
             </motion.div>
           )}
         </AnimatePresence>
+        <AdminDebugPanel user={user} isAdmin={isAdmin} userEmail={user?.email} />
       </div>
     </ErrorBoundary>
   );
