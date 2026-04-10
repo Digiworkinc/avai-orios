@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#00f2ff" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="apple-touch-icon" href="/images/app-icon-192.svg" />
+    <title>AVAI-ORIOS | Smart Technology System Integrator</title>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then(reg => console.log('SW registered'))
+            .catch(err => console.log('SW registration failed', err));
+        });
+      }
+    </script>
+    <script type="module" crossorigin src="/assets/index-D0XP0mCQ.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/lucide-9vXGMLMU.js">
+    <link rel="modulepreload" crossorigin href="/assets/motion-BNZl5BBh.js">
+    <link rel="modulepreload" crossorigin href="/assets/landing-CbckwdeB.js">
+    <link rel="modulepreload" crossorigin href="/assets/recharts-CyLvqkrL.js">
+    <link rel="modulepreload" crossorigin href="/assets/firebase-BfnNRPue.js">
+    <link rel="modulepreload" crossorigin href="/assets/admin-dashboard-BWcO21n8.js">
+    <link rel="stylesheet" crossorigin href="/assets/index-aqkqoSa5.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
+

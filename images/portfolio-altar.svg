@@ -1,0 +1,11 @@
+<!-- Placeholder SVG for Portfolio Altar -->
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="600" viewBox="0 0 400 600">
+  <rect width="400" height="600" fill="#0a0a0c"/>
+  <rect width="400" height="600" fill="#1a1a2e" opacity="0.5"/>
+  <rect x="50" y="100" width="300" height="400" fill="#00f2ff" opacity="0.1" rx="10"/>
+  <circle cx="200" cy="300" r="80" fill="#00f2ff" opacity="0.15"/>
+  <path d="M 100 500 L 200 550 L 300 500" stroke="#00d4ff" stroke-width="2" fill="none" opacity="0.4"/>
+  <text x="200" y="580" font-size="20" font-weight="bold" fill="#00f2ff" text-anchor="middle" opacity="0.5">
+    LED Videotron P2.5
+  </text>
+</svg>

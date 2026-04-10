@@ -1,0 +1,16 @@
+<!-- Placeholder SVG for Hero Tech Image -->
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00f2ff;stop-opacity:0.3" />
+      <stop offset="100%" style="stop-color:#00d4ff;stop-opacity:0.1" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="#0a0a0c"/>
+  <rect width="1200" height="800" fill="url(#grad1)"/>
+  <circle cx="300" cy="200" r="150" fill="#00f2ff" opacity="0.1"/>
+  <circle cx="1000" cy="600" r="200" fill="#00d4ff" opacity="0.08"/>
+  <text x="600" y="400" font-size="48" font-weight="bold" fill="#00f2ff" text-anchor="middle" opacity="0.5">
+    Technology Innovation
+  </text>
+</svg>
