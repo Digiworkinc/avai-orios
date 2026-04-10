@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect, ReactNode } from 'react';
+import React, { useState, useEffect, ReactNode, Suspense, lazy } from 'react';
 import { 
   Cpu, 
   LayoutDashboard, 
@@ -15,7 +15,8 @@ import {
   LogIn,
   LogOut,
   AlertTriangle,
-  Download
+  Download,
+  Loader
 } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
 import { onSnapshot, doc, getDoc, setDoc } from 'firebase/firestore';
@@ -24,7 +25,20 @@ import { db, auth } from './firebase';
 import { cn } from './lib/utils';
 import { View, Product, WebsiteContent } from './types';
 import { Hero, Solutions, Products, Portfolio, Contact } from './components/Landing';
-import { AdminDashboard } from './components/AdminDashboard';
+import { ASSET_CONFIG } from './config/assets';
+
+// Lazy load AdminDashboard for better code-splitting
+const AdminDashboard = lazy(() => import('./components/AdminDashboard').then(m => ({ default: m.AdminDashboard })));
+
+// Loading component
+const AdminDashboardLoader = () => (
+  <div className="min-h-screen bg-brand-dark flex items-center justify-center">
+    <div className="flex flex-col items-center gap-4">
+      <Loader className="w-8 h-8 text-brand-primary animate-spin" />
+      <p className="text-gray-400 text-sm">Loading Admin Dashboard...</p>
+    </div>
+  </div>
+);
 
 // --- Error Boundary ---
 
@@ -82,7 +96,7 @@ const INITIAL_CONTENT: WebsiteContent = {
     tagline: "Smart Technology Integrator",
     headline: "Masa Depan \n Intelligent Integration",
     subHeadline: "AVAI-ORIOS menghadirkan ekosistem teknologi yang mulus, terkoneksi, dan efisien. Kami mengintegrasikan AI, IoT, dan solusi visual canggih ke dalam satu sistem intuitif untuk bisnis dan hunian Anda.",
-    imageUrl: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80",
+    imageUrl: ASSET_CONFIG.images.heroTech,
     stats: {
       value: "99.9%",
       label: "Uptime Reliability"
@@ -128,9 +142,9 @@ const INITIAL_CONTENT: WebsiteContent = {
         "Smart Lighting Control untuk Suasana Ibadah"
       ],
       images: [
-        "https://images.unsplash.com/photo-1438032005730-c779502df39b?auto=format&fit=crop&q=80&w=300&h=400",
-        "https://images.unsplash.com/photo-1544427920-c49ccfb85579?auto=format&fit=crop&q=80&w=300&h=190",
-        "https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&q=80&w=300&h=190"
+        ASSET_CONFIG.images.portfolioAltar,
+        ASSET_CONFIG.images.portfolioAudio,
+        ASSET_CONFIG.images.portfolioStreaming
       ]
     }
   ],
@@ -382,7 +396,9 @@ export default function App() {
               transition={{ duration: 0.5 }}
             >
               {isAdmin ? (
-                <AdminDashboard content={content} setContent={setContent} />
+                <Suspense fallback={<AdminDashboardLoader />}>
+                  <AdminDashboard content={content} setContent={setContent} />
+                </Suspense>
               ) : (
                 <div className="min-h-screen bg-brand-dark flex items-center justify-center p-6 text-center">
                   <div className="glass-panel p-12 max-w-md">

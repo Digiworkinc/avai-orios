@@ -1,0 +1,12 @@
+<!-- Placeholder SVG for Portfolio Audio -->
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300">
+  <rect width="400" height="300" fill="#0a0a0c"/>
+  <rect x="50" y="50" width="300" height="200" fill="#1a1a2e" rx="10" opacity="0.5"/>
+  <circle cx="200" cy="150" r="60" fill="none" stroke="#00f2ff" stroke-width="3" opacity="0.3"/>
+  <circle cx="200" cy="150" r="40" fill="none" stroke="#00d4ff" stroke-width="2" opacity="0.5"/>
+  <path d="M 150 100 Q 150 150 150 200" stroke="#00f2ff" stroke-width="2" fill="none" opacity="0.4"/>
+  <path d="M 250 100 Q 250 150 250 200" stroke="#00f2ff" stroke-width="2" fill="none" opacity="0.4"/>
+  <text x="200" y="280" font-size="16" font-weight="bold" fill="#00f2ff" text-anchor="middle" opacity="0.5">
+    Audio System Integration
+  </text>
+</svg>
